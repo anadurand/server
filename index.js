@@ -14,6 +14,8 @@ const db = levelup("./data", { valueEncoding: "json"});
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
+app.use(express.static("public"));
+
 //crea un router, rutas reales de trabajo, puedo definir un monton de rutas, si hay mas rutas se agregan despues de api
 const router = express.Router();
 
@@ -27,9 +29,9 @@ router.get("/", (req, res) => {
 //ahora uso post
 
 router.post("/movies", (req, res) => {
-  //console.log(req.body); //body donde viene el formulario en si
+  console.log(req.body); //body donde viene el formulario en si
   //la-momia
-  const id = req.body.nombre.toLowerCase().split(" ").joint("-");
+  const id = req.body.nombre.toLowerCase().split(" ").join("-");
   db.put(id, req.body, (err) => {
     if(err) return res.json({message: "hubo un error al guardar los datos"});
   });
